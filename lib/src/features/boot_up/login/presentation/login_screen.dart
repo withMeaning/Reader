@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:read_with_meaning/providers/secure_login/utils.dart';
+import 'package:read_with_meaning/src/features/boot_up/login/data/secure_login/utils.dart';
 
 import '../../../../routing/routes.dart';
 

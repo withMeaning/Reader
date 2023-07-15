@@ -13,6 +13,17 @@ class Sizes {
   static const p64 = 64.0;
 }
 
+// Constant paddings
+const padding4 = EdgeInsets.all(Sizes.p4);
+const padding8 = EdgeInsets.all(Sizes.p8);
+const padding12 = EdgeInsets.all(Sizes.p12);
+const padding16 = EdgeInsets.all(Sizes.p16);
+const padding20 = EdgeInsets.all(Sizes.p20);
+const padding24 = EdgeInsets.all(Sizes.p24);
+const padding32 = EdgeInsets.all(Sizes.p32);
+const padding48 = EdgeInsets.all(Sizes.p48);
+const padding64 = EdgeInsets.all(Sizes.p64);
+
 /// Constant gap widths
 const gapW4 = SizedBox(width: Sizes.p4);
 const gapW8 = SizedBox(width: Sizes.p8);

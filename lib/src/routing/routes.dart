@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/localization/string_hardcoded.dart';
 import 'package:read_with_meaning/src/common_widgets/errors/not_yet_implemented.dart';
-import 'package:read_with_meaning/src/features/single_experience/view/presentation/single_exp_screen.dart';
-import 'package:read_with_meaning/src/features/manage_experiences/sort/presentation/when_screen.dart';
+import 'package:read_with_meaning/src/features/experience/single/view/presentation/single_exp_screen.dart';
+import 'package:read_with_meaning/src/features/experience/manage/sort/presentation/when_screen.dart';
 
+import '../common_widgets/errors/404_screen.dart';
 import '../features/boot_up/login/presentation/login_screen.dart';
 import '../features/boot_up/splash_screen.dart';
 
@@ -16,6 +17,7 @@ enum AppRoute {
   exp,
   stream,
   lakes,
+  four04,
 }
 
 final routes = GoRouter(
@@ -63,6 +65,11 @@ final routes = GoRouter(
           path: 'lakes',
           name: AppRoute.lakes.name,
           builder: (_, __) => const NotYetImplementedScreen(),
+        ),
+        GoRoute(
+          path: '404',
+          name: AppRoute.four04.name,
+          builder: (_, __) => const NotFoundScreen(),
         ),
       ],
     ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:read_with_meaning/src/constants/colors.dart';
 import 'package:read_with_meaning/src/constants/text_strings.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
@@ -11,7 +13,7 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     // * Entry point of the app
-    runApp(Meaning());
+    runApp(ProviderScope(child: Meaning()));
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
