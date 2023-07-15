@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// ? what is the differnece between import over package vs relative?
 import '../../../../../../../providers/secure_login/utils.dart';
 import '../../constants/image_strings.dart';
 import '../../routing/routes.dart';
@@ -12,8 +13,10 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-// todo: This handles the decision between the login screen and the main screen
-// todo: it also fetches a first item from the web, if the useqr is logged in and there is internet
+// ! This widget handles the decision between the login screen and the main screen
+// it also fetches a first item from the web, if the user is logged in and there is internet
+
+// TODO: Improvement: use go_router redirect to handle login logic
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
