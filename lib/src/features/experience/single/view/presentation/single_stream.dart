@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/src/common_widgets/full_screen.dart';
 import 'package:read_with_meaning/src/constants/app_sizes.dart';
-import 'package:read_with_meaning/src/features/experience/data/fake/reads_repository.dart';
+import 'package:read_with_meaning/src/features/experience/data/fake/fake_reads_repository.dart';
 import 'package:read_with_meaning/src/features/experience/single/view/application/go_back_and_forth.dart';
 
 class SingleStream extends ConsumerWidget {
@@ -12,14 +12,13 @@ class SingleStream extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final readRepository = ref.watch(readRepositoryFutureProvider(id));
-    // !! this should only ever be 1 once!
-    // !! when it is invoked by the /now route
-    // ! but its not? Why?
-    if (id == "1") {
-      final apiCall = ref.watch(readsRepositoryProvider);
-      apiCall.fetchReadsFromAPI();
-    }
+    final readRepository = ref.watch(readRepositoryStreamProvider(id));
+    // !! this should only called once, per go_route
+    // !! and only ever be 1 once.
+    // !! instead it is called many timmes with many values
+    // !! each time I invoke the /exp route
+    debugPrint(id);
+
     return AsyncValueWidget(
         value: readRepository,
         placeholder: SizedBox(

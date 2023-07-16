@@ -3,6 +3,17 @@ import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 
 const randomDate = 1689272693;
 
+const mTestExps2 = [
+  Read(
+      id: "1",
+      author: "author",
+      createdAt: randomDate,
+      title: "Neeew Stuff",
+      mainContent: "mainContent",
+      source: "example.com",
+      link: "link"),
+];
+
 const mTestExps = [
   Read(
       id: "1",

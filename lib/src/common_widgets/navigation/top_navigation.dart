@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:read_with_meaning/src/features/experience/data/from_server.dart/reads_repository.dart';
 import '../../routing/routes.dart';
 
 class TopNavigation extends StatelessWidget {
@@ -16,6 +18,15 @@ class TopNavigation extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           centerIcon,
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                  onPressed: () {
+                    ref.read(readRefreshFutureProvider);
+                  },
+                  icon: const Icon(Icons.refresh));
+            },
+          ),
           IconButton(
               onPressed: () {
                 context.pushNamed(AppRoute.login.name);

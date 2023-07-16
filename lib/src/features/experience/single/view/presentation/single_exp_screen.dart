@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/navigation/top_navigation.dart';
 import 'package:read_with_meaning/src/common_widgets/no_scroll.dart';
 import 'package:read_with_meaning/src/constants/app_sizes.dart';
-import 'package:read_with_meaning/src/features/experience/single/view/presentation/single_future.dart';
+import 'package:read_with_meaning/src/features/experience/single/view/presentation/single_stream.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
 
 class SingleExperienceScreen extends StatelessWidget {

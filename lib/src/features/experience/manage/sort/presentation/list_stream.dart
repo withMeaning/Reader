@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
-import 'package:read_with_meaning/src/features/experience/data/fake/reads_repository.dart';
+import 'package:read_with_meaning/src/features/experience/data/fake/fake_reads_repository.dart';
 import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 
 import 'reorderable_list.dart';
@@ -15,7 +15,7 @@ class ListStream extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final readRepository = ref.watch(readsListRepositoryFutureProvider);
+    final readRepository = ref.watch(readsListRepositoryStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
         placeholder: ListView.builder(
