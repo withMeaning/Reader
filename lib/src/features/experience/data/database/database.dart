@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:read_with_meaning/src/features/experience/data/database/initial_fill.dart';
 
 import 'connection/connection.dart' as impl;
 import 'tables.dart';
@@ -28,10 +29,7 @@ class AppDatabase extends _$AppDatabase {
         // Create a bunch of default values so the app doesn't look too empty
         // on the first start.
         await batch((b) {
-          b.insert(
-            meaningTypes,
-            MeaningTypesCompanion.insert(name: 'experience'),
-          );
+          initDB(b, meaningTypes, readEntries);
         });
       }
     });
@@ -45,7 +43,25 @@ class AppDatabase extends _$AppDatabase {
     return database;
   });
 
-  Stream<List<dynamic>> watchTypes() {
+  Stream<List<MeaningType>> watchTypes() {
     return (select(meaningTypes).watch());
   }
+
+  Stream<List<ReadEntry>> watchReads() {
+    return (select(readEntries).watch());
+  }
+
+  Future<ReadEntry> fetchRead(String id) async {
+    return (select(readEntries)..where((tbl) => tbl.id.equals(id))).getSingle();
+  }
 }
+
+final dbStreamProvider = StreamProvider((ref) {
+  final database = ref.watch(AppDatabase.provider);
+  return database.watchReads();
+});
+
+final allTypes = StreamProvider((ref) {
+  final database = ref.watch(AppDatabase.provider);
+  return database.watchTypes();
+});

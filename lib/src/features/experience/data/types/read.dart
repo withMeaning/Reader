@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
 import 'package:read_with_meaning/src/features/experience/data/experience.dart';
 
 class Read extends Experience {
@@ -22,5 +23,18 @@ class Read extends Experience {
   @override
   String toString() {
     return 'Read(title: $title, mainContent: $mainContent, source: $source, link: $link, summary: $summary)';
+  }
+
+  factory Read.fromReadEntry(ReadEntry entry) {
+    return Read(
+      id: entry.id,
+      author: entry.author,
+      createdAt: entry.createdAt,
+      title: entry.title,
+      mainContent: entry.mainContent,
+      source: entry.source,
+      link: entry.link,
+      summary: entry.summary,
+    );
   }
 }

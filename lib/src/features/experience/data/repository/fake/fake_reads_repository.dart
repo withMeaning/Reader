@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_with_meaning/src/features/experience/data/fake/test_experiences.dart';
+import 'package:read_with_meaning/src/features/experience/data/repository/fake/test_experiences.dart';
 import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 
+// ! this one could be used for testing, but significant refactor needed.
+// ! better to use drifts testing providers?
 class FakeReadsRepository {
   final List<Read> _reads = mTestExps.whereType<Read>().toList();
 
@@ -63,13 +65,13 @@ class FakeReadsRepository {
   }
 }
 
-final readsRepositoryProvider = Provider<FakeReadsRepository>((ref) {
+final fakeReadsRepositoryProvider = Provider<FakeReadsRepository>((ref) {
   return FakeReadsRepository();
 });
 
-final readRepositoryFutureProvider =
+final fakeReadRepositoryFutureProvider =
     FutureProvider.autoDispose.family<Read, String>((ref, id) {
-  final readsRepository = ref.watch(readsRepositoryProvider);
+  final readsRepository = ref.watch(fakeReadsRepositoryProvider);
 /*   final link = ref.keepAlive();
   Timer(const Duration(seconds: 10), () {
     link.close();
@@ -77,9 +79,9 @@ final readRepositoryFutureProvider =
   return readsRepository.fetchRead(id);
 });
 
-final readRepositoryStreamProvider =
+final fakeReadRepositoryStreamProvider =
     StreamProvider.autoDispose.family<Read, String>((ref, id) {
-  final readsRepository = ref.watch(readsRepositoryProvider);
+  final readsRepository = ref.watch(fakeReadsRepositoryProvider);
 
   // TODO fix caching
   // ! the debugPrints are called
@@ -94,9 +96,9 @@ final readRepositoryStreamProvider =
   return readsRepository.watchRead(id);
 });
 
-final readsListRepositoryFutureProvider =
+final fakeReadsListRepositoryFutureProvider =
     FutureProvider.autoDispose<List<Read>>((ref) {
-  final readsRepository = ref.watch(readsRepositoryProvider);
+  final readsRepository = ref.watch(fakeReadsRepositoryProvider);
 /*   debugPrint("created readsListRepositoryFutureProvider");
   final link = ref.keepAlive();
   Timer(const Duration(seconds: 10), () {
@@ -105,9 +107,9 @@ final readsListRepositoryFutureProvider =
   return readsRepository.fetchReads();
 });
 
-final readsListRepositoryStreamProvider =
+final fakeReadsListRepositoryStreamProvider =
     StreamProvider.autoDispose<List<Read>>((ref) {
-  final readsRepository = ref.watch(readsRepositoryProvider);
+  final readsRepository = ref.watch(fakeReadsRepositoryProvider);
 /*   final link = ref.keepAlive();
   Timer(const Duration(seconds: 10), () {
     link.close();

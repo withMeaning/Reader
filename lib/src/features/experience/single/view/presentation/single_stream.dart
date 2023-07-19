@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/src/common_widgets/full_screen.dart';
 import 'package:read_with_meaning/src/constants/app_sizes.dart';
-import 'package:read_with_meaning/src/features/experience/data/fake/fake_reads_repository.dart';
+import 'package:read_with_meaning/src/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/src/features/experience/single/view/application/go_back_and_forth.dart';
 
 class SingleStream extends ConsumerWidget {
@@ -12,12 +12,7 @@ class SingleStream extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final readRepository = ref.watch(readRepositoryStreamProvider(id));
-    // !! this should only called once, per go_route
-    // !! and only ever be 1 once.
-    // !! instead it is called many timmes with many values
-    // !! each time I invoke the /exp route
-    debugPrint(id);
+    final readRepository = ref.watch(readFutureProvider(id));
 
     return AsyncValueWidget(
         value: readRepository,
@@ -71,12 +66,14 @@ class SingleStream extends ConsumerWidget {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              goPrevious(context, ref, currentItem.id ?? "1");
+                              // ! TODO goPrevious(context, ref, currentItem.id ?? "1");
+                              goPrevious(context, ref, id);
                             },
                             child: const Text("<")),
                         ElevatedButton(
                             onPressed: () {
-                              goNext(context, ref, currentItem.id ?? "1");
+                              goNext(context, ref, id);
+                              // ! TODO  goNext(context, ref, currentItem.id ?? "1");
                             },
                             child: const Text(">"))
                       ],

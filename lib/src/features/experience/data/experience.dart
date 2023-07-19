@@ -8,7 +8,7 @@ class Experience {
   });
   final String id;
   final String author;
-  final int createdAt; // timestamp
+  final DateTime createdAt; // timestamp
   final String content;
   final String type;
 }

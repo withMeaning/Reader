@@ -1,9 +1,9 @@
 import 'package:read_with_meaning/src/features/experience/data/experience.dart';
 import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 
-const randomDate = 1689272693;
+DateTime randomDate = DateTime.now();
 
-const mTestExps2 = [
+final mTestExps2 = [
   Read(
       id: "1",
       author: "author",
@@ -14,7 +14,7 @@ const mTestExps2 = [
       link: "link"),
 ];
 
-const mTestExps = [
+final mTestExps = [
   Read(
       id: "1",
       author: "author",

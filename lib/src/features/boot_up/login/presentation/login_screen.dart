@@ -32,15 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _privateKeyController,
                 decoration: const InputDecoration(labelText: 'Private Key'),
                 obscureText: true,
+                onFieldSubmitted: (_) {
+                  _submit();
+                },
+                textInputAction: TextInputAction.done,
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    logIn(context, _privateKeyController.text, mounted).then(
-                        (redirectYes) => redirectYes
-                            ? context.replaceNamed(AppRoute.now.name)
-                            : null);
-                  }
+                  _submit();
                 },
                 child: const Text('Submit'),
               )
@@ -49,6 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  _submit() {
+    if (_formKey.currentState!.validate()) {
+      logIn(context, _privateKeyController.text, mounted).then((redirectYes) =>
+          redirectYes ? context.replaceNamed(AppRoute.now.name) : null);
+    }
   }
 
   @override

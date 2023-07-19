@@ -11,12 +11,6 @@ class SingleExperienceScreen extends StatelessWidget {
   final String id;
   @override
   Widget build(BuildContext context) {
-/*     late Read currentItem;
-    try {
-      currentItem = onlyReadItems.firstWhere((Read exp) => exp.id == id);
-    } catch (e) {
-      context.goNamed(AppRoute.four04.name);
-    } */
     return TopNavigation(
         centerIcon: IconButton(
             onPressed: () {

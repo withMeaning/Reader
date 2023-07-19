@@ -3,29 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
-import 'package:read_with_meaning/src/features/experience/data/fake/fake_reads_repository.dart';
-import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
-
-import 'reorderable_list.dart';
+import 'package:read_with_meaning/src/features/experience/manage/sort/presentation/reorderable_list.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
+import 'package:uuid/uuid.dart';
 
-class ListStream extends ConsumerWidget {
+class ListStream extends ConsumerStatefulWidget {
   const ListStream({super.key});
 
-  // TODO replace with state management solution
+  @override
+  ConsumerState<ListStream> createState() => _ListStreamState();
+}
+
+class _ListStreamState extends ConsumerState<ListStream> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final readRepository = ref.watch(readsListRepositoryStreamProvider);
-    final database = ref.read(AppDatabase.provider);
-    database.into(database.readEntries).insert(ReadEntriesCompanion.insert(
-        title: "test",
-        author: "test",
-        id: "1",
-        createdAt: DateTime.now(),
-        mainContent: "deadbeef",
-        source: "test",
-        link: "deade.com"));
+  Widget build(BuildContext context) {
+    //final readRepository = ref.watch(readsListRepositoryStreamProvider);
+
+/*     final readRepository = ref.watch(dbStreamProvider).map(
+        data: (value) => {value.value.map((e) => Read.fromReadEntry(e))},
+        error: (asyncError) => placeholderRead,
+        loading: (asyncLoading) => placeholderRead); */
+    final readRepository = ref.watch(dbStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
         placeholder: ListView.builder(
@@ -75,9 +78,9 @@ class ListStream extends ConsumerWidget {
           ),
           itemCount: 6,
         ),
-        data: (List<Read> onlyReadItems) {
-          final list = onlyReadItems
-              .map((Read exp) => ListTile(
+        data: (List<ReadEntry> onlyReadItems) {
+          var list = onlyReadItems
+              .map((ReadEntry exp) => ListTile(
                     key: Key(exp.id),
                     title: Text(exp.title),
                     onTap: () => {
@@ -87,8 +90,7 @@ class ListStream extends ConsumerWidget {
                     subtitle: Text(exp.author),
                   ))
               .toList();
-          return CustomReorderableListView(
-              list: list); //_buildList(context, onlyReadItems);
+          return CustomReorderableListView(list: list);
         });
   }
 }

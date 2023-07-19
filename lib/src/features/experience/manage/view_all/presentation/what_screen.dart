@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/src/common_widgets/navigation/top_navigation.dart';
 import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
@@ -29,7 +30,7 @@ class _ViewAllScreenState extends ConsumerState<ViewAllScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final streamTypes = ref.watch(allTypes);
+    final streamAllReads = ref.watch(dbStreamProvider);
     return TopNavigation(
       centerIcon: IconButton(
           onPressed: () {
@@ -37,27 +38,36 @@ class _ViewAllScreenState extends ConsumerState<ViewAllScreen> {
           },
           icon: const Icon(Icons.circle_outlined)),
       child: Row(children: [
-        ElevatedButton(onPressed: addTypes, child: const Text("Add Type")),
-        streamTypes.when(
-            data: (types) {
+        AsyncValueWidget(
+            value: streamAllReads,
+            data: (reads) {
               return SizedBox(
-                  width: 500,
-                  height: 500,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
-                    itemCount: types.length,
+                    itemCount: reads.length,
                     itemBuilder: (context, index) {
-                      return Text(types[index].name);
+                      return ListTile(
+                          key: Key(reads[index].id.toString()),
+                          title: Text(reads[index].title),
+                          onTap: () => {
+                                context.pushNamed(AppRoute.exp.name,
+                                    pathParameters: {"id": reads[index].id})
+                              },
+                          subtitle: Text(reads[index].author),
+                          trailing: IconButton(
+                              onPressed: () {
+                                // TODO: turn into provider
+                                final database = ref.read(AppDatabase.provider);
+                                database
+                                    .delete(database.readEntries)
+                                    .delete(reads[index]);
+                              },
+                              icon: const Icon(Icons.delete)));
                     },
                   ));
-            },
-            error: (e, __) => Center(child: Text("$e")),
-            loading: () => const Center(child: CircularProgressIndicator()))
+            })
       ]),
     );
   }
 }
-
-final allTypes = StreamProvider((ref) {
-  final database = ref.watch(AppDatabase.provider);
-  return database.watchTypes();
-});
