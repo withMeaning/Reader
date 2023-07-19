@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:read_with_meaning/src/features/experience/data/experience.dart';
 
 class Read extends Experience {
@@ -17,4 +18,9 @@ class Read extends Experience {
   final String source;
   final String link;
   final String? summary;
+
+  @override
+  String toString() {
+    return 'Read(title: $title, mainContent: $mainContent, source: $source, link: $link, summary: $summary)';
+  }
 }

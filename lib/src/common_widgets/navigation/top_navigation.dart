@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,12 @@ class TopNavigation extends StatelessWidget {
         title: const Text("Read With Meaning"),
         automaticallyImplyLeading: false,
         actions: [
+          if (kDebugMode)
+            IconButton(
+                onPressed: () {
+                  context.pushNamed(AppRoute.debugDB.name);
+                },
+                icon: const Icon(Icons.storage)),
           centerIcon,
           Consumer(
             builder: (context, ref, child) {

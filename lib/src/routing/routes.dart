@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/localization/string_hardcoded.dart';
 import 'package:read_with_meaning/src/common_widgets/errors/not_yet_implemented.dart';
+import 'package:read_with_meaning/src/features/experience/manage/debug_admin/db_view.dart';
+import 'package:read_with_meaning/src/features/experience/manage/view_all/presentation/what_screen.dart';
 import 'package:read_with_meaning/src/features/experience/single/view/presentation/single_exp_screen.dart';
 import 'package:read_with_meaning/src/features/experience/manage/sort/presentation/when_screen.dart';
 
@@ -18,6 +20,7 @@ enum AppRoute {
   stream,
   lakes,
   four04,
+  debugDB,
 }
 
 final routes = GoRouter(
@@ -64,12 +67,17 @@ final routes = GoRouter(
         GoRoute(
           path: 'lakes',
           name: AppRoute.lakes.name,
-          builder: (_, __) => const NotYetImplementedScreen(),
+          builder: (_, __) => const ViewAllScreen(),
         ),
         GoRoute(
           path: '404',
           name: AppRoute.four04.name,
           builder: (_, __) => const NotFoundScreen(),
+        ),
+        GoRoute(
+          path: 'debug/db',
+          name: AppRoute.debugDB.name,
+          builder: (_, __) => const DBViewScreen(),
         ),
       ],
     ),

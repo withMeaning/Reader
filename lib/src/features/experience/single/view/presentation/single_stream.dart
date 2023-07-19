@@ -29,11 +29,13 @@ class SingleStream extends ConsumerWidget {
           ),
         ),
         data: (currentItem) {
+          debugPrint(currentItem.toString());
           return SingleChildScrollView(
             child: Column(children: [
               FullScreen(
                 child: Column(
                   // TODO refactor this into even more widgets
+
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -88,7 +90,7 @@ class SingleStream extends ConsumerWidget {
                     child: Text(
                         style: Theme.of(context).textTheme.bodyLarge,
                         textAlign: TextAlign.left,
-                        currentItem.content),
+                        currentItem.mainContent),
                   ),
                 ],
               )

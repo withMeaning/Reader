@@ -12,9 +12,9 @@ class WhenListScreen extends StatelessWidget {
     return TopNavigation(
         centerIcon: IconButton(
             onPressed: () {
-              context.pushNamed(AppRoute.now.name);
+              context.pushNamed(AppRoute.lakes.name);
             },
-            icon: const Icon(Icons.circle_outlined)),
+            icon: const Icon(Icons.scatter_plot_outlined)),
         child: const ListStream());
   }
 }

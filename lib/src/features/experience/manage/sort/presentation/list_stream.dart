@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
+import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
 import 'package:read_with_meaning/src/features/experience/data/fake/fake_reads_repository.dart';
 import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 
@@ -16,6 +17,15 @@ class ListStream extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final readRepository = ref.watch(readsListRepositoryStreamProvider);
+    final database = ref.read(AppDatabase.provider);
+    database.into(database.readEntries).insert(ReadEntriesCompanion.insert(
+        title: "test",
+        author: "test",
+        id: "1",
+        createdAt: DateTime.now(),
+        mainContent: "deadbeef",
+        source: "test",
+        link: "deade.com"));
     return AsyncValueWidget(
         value: readRepository,
         placeholder: ListView.builder(
