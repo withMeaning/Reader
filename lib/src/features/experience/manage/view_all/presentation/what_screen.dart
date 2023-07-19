@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/src/common_widgets/navigation/top_navigation.dart';
 import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
+import 'package:read_with_meaning/src/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
 
 class ViewAllScreen extends ConsumerStatefulWidget {
@@ -30,7 +31,9 @@ class _ViewAllScreenState extends ConsumerState<ViewAllScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final streamAllReads = ref.watch(dbStreamProvider);
+    final streamAllReads = ref.watch(readsListRepositoryStreamProvider);
+    final database = ref.read(AppDatabase.provider);
+
     return TopNavigation(
       centerIcon: IconButton(
           onPressed: () {
@@ -58,10 +61,11 @@ class _ViewAllScreenState extends ConsumerState<ViewAllScreen> {
                           trailing: IconButton(
                               onPressed: () {
                                 // TODO: turn into provider
-                                final database = ref.read(AppDatabase.provider);
-                                database
-                                    .delete(database.readEntries)
-                                    .delete(reads[index]);
+                                (database.delete(database.readEntries)
+                                      ..where((tbl) =>
+                                          tbl.id.equals(reads[index].id)))
+                                    .go();
+                                //.delete  (reads[index].id);
                               },
                               icon: const Icon(Icons.delete)));
                     },

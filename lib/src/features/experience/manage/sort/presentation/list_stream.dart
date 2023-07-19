@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/src/common_widgets/async_value_widget.dart';
-import 'package:read_with_meaning/src/features/experience/data/database/database.dart';
+import 'package:read_with_meaning/src/features/experience/data/repository/read_repository.dart';
+import 'package:read_with_meaning/src/features/experience/data/types/read.dart';
 import 'package:read_with_meaning/src/features/experience/manage/sort/presentation/reorderable_list.dart';
 import 'package:read_with_meaning/src/routing/routes.dart';
-import 'package:uuid/uuid.dart';
 
 class ListStream extends ConsumerStatefulWidget {
   const ListStream({super.key});
@@ -28,7 +28,7 @@ class _ListStreamState extends ConsumerState<ListStream> {
         data: (value) => {value.value.map((e) => Read.fromReadEntry(e))},
         error: (asyncError) => placeholderRead,
         loading: (asyncLoading) => placeholderRead); */
-    final readRepository = ref.watch(dbStreamProvider);
+    final readRepository = ref.watch(readsListRepositoryStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
         placeholder: ListView.builder(
@@ -78,9 +78,9 @@ class _ListStreamState extends ConsumerState<ListStream> {
           ),
           itemCount: 6,
         ),
-        data: (List<ReadEntry> onlyReadItems) {
+        data: (List<Read> onlyReadItems) {
           var list = onlyReadItems
-              .map((ReadEntry exp) => ListTile(
+              .map((Read exp) => ListTile(
                     key: Key(exp.id),
                     title: Text(exp.title),
                     onTap: () => {

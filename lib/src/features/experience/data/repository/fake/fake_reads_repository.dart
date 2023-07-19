@@ -23,7 +23,8 @@ class FakeReadsRepository {
 
   Future<void> replaceReads(List<Read> realReads) {
     // TODO this should be observed by a stream?
-    // TODO implement with Rx
+    // TODO implement with drift
+    // ! old sync logic
     _reads.clear();
     _reads.addAll(realReads);
     return Future.value();

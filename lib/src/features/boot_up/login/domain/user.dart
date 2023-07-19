@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 //generated code
-// TODO undersand this
 class User {
   String userId;
   String username;

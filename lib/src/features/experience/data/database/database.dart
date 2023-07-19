@@ -55,13 +55,3 @@ class AppDatabase extends _$AppDatabase {
     return (select(readEntries)..where((tbl) => tbl.id.equals(id))).getSingle();
   }
 }
-
-final dbStreamProvider = StreamProvider((ref) {
-  final database = ref.watch(AppDatabase.provider);
-  return database.watchReads();
-});
-
-final allTypes = StreamProvider((ref) {
-  final database = ref.watch(AppDatabase.provider);
-  return database.watchTypes();
-});

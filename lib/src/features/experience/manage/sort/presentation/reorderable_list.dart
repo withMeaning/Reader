@@ -16,6 +16,9 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
   @override
   void initState() {
     super.initState();
+
+    // ! finding this bug took me more than 1 hour ...
+    // _items = List.from(widget.list);
   }
 
   @override
