@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:read_with_meaning/src/constants/colors.dart';
-import 'package:read_with_meaning/src/constants/text_strings.dart';
-import 'package:read_with_meaning/src/routing/routes.dart';
+import 'package:read_with_meaning/public/constants/colors.dart';
+import 'package:read_with_meaning/public/constants/text_strings.dart';
+import 'package:read_with_meaning/public/routing/routes.dart';
+
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +45,11 @@ class Meaning extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: Brightness.dark));
+    }
     return MaterialApp.router(
       title: title,
       debugShowCheckedModeBanner: false,
