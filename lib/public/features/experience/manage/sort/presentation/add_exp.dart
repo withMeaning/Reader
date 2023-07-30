@@ -80,7 +80,7 @@ class _AddExpFormState extends ConsumerState<AddExpForm> {
   }
 
   _submit() {
-    addExpToDB(ref, _titleController.text, _mainContentController.text,
+    addReadToDB(ref, _titleController.text, _mainContentController.text,
         _linkController.text);
     context.pop("");
   }

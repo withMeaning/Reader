@@ -16,7 +16,7 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     // * Entry point of the app
-    runApp(ProviderScope(child: Meaning()));
+    runApp(const ProviderScope(child: Meaning()));
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
@@ -37,14 +37,13 @@ void main() async {
   });
 }
 
-class Meaning extends StatelessWidget {
-  Meaning({super.key});
-
-  final _router = routes;
+class Meaning extends ConsumerWidget {
+  const Meaning({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
     if (Platform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.transparent,
@@ -56,7 +55,7 @@ class Meaning extends StatelessWidget {
       theme: MeaningAppTheme.lightTheme,
       darkTheme: MeaningAppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routerConfig: _router,
+      routerConfig: router,
     );
   }
 }

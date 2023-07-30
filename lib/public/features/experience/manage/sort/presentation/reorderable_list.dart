@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/reorder.dart';
 
@@ -19,15 +20,19 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
     _items = List.from(widget.list);
     // TODO room for improvement, leveraging the state management
 
-    return ReorderableListView(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      header: widget.header,
-      children: _items,
-      onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          reorder(_items, oldIndex, newIndex);
-        });
-      },
-    );
+    return Consumer(builder: (context, ref, child) {
+      return ReorderableListView(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        header: widget.header,
+        children: _items,
+        onReorder: (int oldIndex, int newIndex) {
+          if (oldIndex < newIndex) newIndex -= 1;
+          final Widget item = _items.removeAt(oldIndex);
+          _items.insert(newIndex, item);
+
+          reorder(ref, oldIndex, newIndex);
+        },
+      );
+    });
   }
 }

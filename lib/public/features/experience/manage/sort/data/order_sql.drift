@@ -1,0 +1,5 @@
+import '../domain/ordered.dart';
+
+_insertOrderToTop: 
+    UPDATE orders SET order_index = order_index + 1;
+    -- this bugs INSERT INTO orders (id, order_index) VALUES (:id, :order_index);

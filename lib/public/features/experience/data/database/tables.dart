@@ -1,25 +1,6 @@
 import 'package:drift/drift.dart';
 
-@DataClassName('ReadEntry')
-class ReadEntries extends Table {
-  TextColumn get id => text()();
-  TextColumn get author => text()();
-  IntColumn get createdAt => integer().map(const DateConverter())();
-  TextColumn get title => text()();
-  TextColumn get mainContent => text()();
-  TextColumn get source => text()();
-  TextColumn get link => text()();
-  TextColumn get summary => text().nullable()();
-  IntColumn get type =>
-      integer().nullable().references(MeaningTypes, #primaryId)();
-  @override
-  Set<Column> get primaryKey => {id};
-}
-
-@DataClassName('MeaningType')
-class MeaningTypes extends Table with AutoIncrementingPrimaryKey {
-  TextColumn get name => text()();
-}
+// * See the shared domain type definitions for table registration
 
 mixin AutoIncrementingPrimaryKey on Table {
   IntColumn get primaryId => integer().autoIncrement()();

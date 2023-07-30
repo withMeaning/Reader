@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
+import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sort/data/order_repositority.dart';
 import 'package:read_with_meaning/shared/domain/types/read.dart';
-import 'package:read_with_meaning/public/features/experience/manage/sort/presentation/reorderable_list.dart';
-import 'package:read_with_meaning/public/routing/routes.dart';
 
-class ListStream extends ConsumerStatefulWidget {
-  const ListStream({super.key});
+class ListOfReads extends ConsumerStatefulWidget {
+  const ListOfReads({super.key});
 
   @override
-  ConsumerState<ListStream> createState() => _ListStreamState();
+  ConsumerState<ListOfReads> createState() => _ListStreamState();
 }
 
-class _ListStreamState extends ConsumerState<ListStream> {
+// TODO this should propbably not hold the repository?
+class _ListStreamState extends ConsumerState<ListOfReads> {
   @override
   void initState() {
     super.initState();
@@ -28,7 +27,7 @@ class _ListStreamState extends ConsumerState<ListStream> {
         data: (value) => {value.value.map((e) => Read.fromReadEntry(e))},
         error: (asyncError) => placeholderRead,
         loading: (asyncLoading) => placeholderRead); */
-    final readRepository = ref.watch(sortedReadsListRepositoryStreamProvider);
+    final readRepository = ref.watch(readsListRepositoryStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
         placeholder: SizedBox(
@@ -44,13 +43,12 @@ class _ListStreamState extends ConsumerState<ListStream> {
                     key: Key(exp.base.id),
                     title: Text(exp.base.content),
                     onTap: () => {
-                      context.pushNamed(AppRoute.exp.name,
-                          pathParameters: {"id": exp.base.id})
+                      ref.read(addToTopProvider(exp.base.id)),
                     },
                     subtitle: Text(exp.base.author),
                   ))
               .toList();
-          return CustomReorderableListView(list: list);
+          return ListView(children: list);
         });
   }
 }

@@ -30,7 +30,7 @@ class FakeReadsRepository {
   }
 
   Read getNextRead(String id) {
-    int index = _reads.indexWhere((Read exp) => exp.id == id);
+    int index = _reads.indexWhere((Read exp) => exp.base.id == id);
     if (index == _reads.length - 1) {
       return _reads.first;
     }
@@ -38,7 +38,7 @@ class FakeReadsRepository {
   }
 
   Read getPreviousRead(String id) {
-    int index = _reads.indexWhere((Read exp) => exp.id == id);
+    int index = _reads.indexWhere((Read exp) => exp.base.id == id);
     if (index == 0) {
       return _reads.last;
     }
@@ -56,12 +56,12 @@ class FakeReadsRepository {
 
   Future<Read> fetchRead(String id) async {
     return fetchReads()
-        .then((value) => value.firstWhere((Read exp) => exp.id == id));
+        .then((value) => value.firstWhere((Read exp) => exp.base.id == id));
   }
 
   Stream<Read> watchRead(String id) {
     return watchReads()
-        .map((reads) => reads.firstWhere((Read exp) => exp.id == id));
+        .map((reads) => reads.firstWhere((Read exp) => exp.base.id == id));
   }
 }
 

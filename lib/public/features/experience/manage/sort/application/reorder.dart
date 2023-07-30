@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:read_with_meaning/public/features/experience/manage/sort/data/order_repositority.dart';
+import 'package:read_with_meaning/public/features/experience/manage/sort/domain/sort.dart';
 
 // TODO implement with riverpod and build List<Order>
 
-void reorder(List<Widget> list, int oldIndex, int newIndex) {
-  if (oldIndex < newIndex) {
+void reorder(WidgetRef ref, int oldIndex, int newIndex) {
+/*   if (oldIndex < newIndex) {
     newIndex -= 1;
-  }
-  final Widget item = list.removeAt(oldIndex);
-  list.insert(newIndex, item);
+  } */
+  Sort sort = Sort(newIndex: newIndex, oldIndex: oldIndex);
+  ref.read(sortOrderProvider(sort));
 }
 
           // the actual reordering logic:
