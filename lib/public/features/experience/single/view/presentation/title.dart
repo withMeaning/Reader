@@ -36,7 +36,7 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
                         });
                       },
                       // TODO on very small screens maxLines should be dynamic
-                      child: Text(currentItem.title,
+                      child: Text(currentItem.base.content,
                           textAlign: TextAlign.center,
                           softWrap: true,
                           maxLines: 7,
@@ -51,7 +51,7 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
                     data: (currentItem) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 48.0, right: 48.0),
-                        child: Text(currentItem.author,
+                        child: Text(currentItem.base.author,
                             textAlign: TextAlign.center,
                             softWrap: true,
                             style: Theme.of(context).textTheme.titleLarge),

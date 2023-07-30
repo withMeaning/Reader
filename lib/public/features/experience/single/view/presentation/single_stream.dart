@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/public/common_widgets/full_screen.dart';
 import 'package:read_with_meaning/public/constants/app_sizes.dart';
+import 'package:read_with_meaning/public/features/experience/data/database/database.dart';
 import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/public/features/experience/single/view/application/go_back_and_forth.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +16,7 @@ class SingleStream extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final readRepository = ref.watch(readFutureProvider(id));
-
+    var db = ref.read(AppDatabase.provider);
     return AsyncValueWidget(
         value: readRepository,
         // TODO refactor placeholder
@@ -39,9 +40,9 @@ class SingleStream extends ConsumerWidget {
                         style: Theme.of(context).textTheme.headlineLarge,
                         textAlign: TextAlign.center,
                         // TODO load this first, the content second
-                        currentItem.title),
+                        currentItem.base.content),
                     gapH12,
-                    currentItem.author != ""
+                    currentItem.base.author != ""
                         ? RichText(
                             text: TextSpan(
                               text: 'by ',
@@ -56,7 +57,7 @@ class SingleStream extends ConsumerWidget {
                               children: <TextSpan>[
                                 TextSpan(
                                   text: currentItem
-                                      .author, // TODO formating if long
+                                      .base.author, // TODO formating if long
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 )

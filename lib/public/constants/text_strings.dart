@@ -1,3 +1,3 @@
 const String welcomeMessage = 'Hello';
 const String title = 'Read with Meaning';
-const String baseURL = 'http://localhost:8080';
+const String baseURL = 'https://spile.withmeaning.io';

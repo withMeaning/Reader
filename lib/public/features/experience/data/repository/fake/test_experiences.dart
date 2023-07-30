@@ -1,25 +1,17 @@
+import 'package:read_with_meaning/shared/domain/all_types_definition.dart';
 import 'package:read_with_meaning/shared/domain/experience.dart';
 import 'package:read_with_meaning/shared/domain/types/read.dart';
 
 DateTime randomDate = DateTime.now();
 
-final mTestExps2 = [
-  Read(
-      id: "1",
-      author: "author",
-      createdAt: randomDate,
-      title: "Neeew Stuff",
-      mainContent: "mainContent",
-      source: "example.com",
-      link: "link"),
-];
-
 final mTestExps = [
   Read(
-      id: "1",
-      author: "author",
-      createdAt: randomDate,
-      title: "title",
+      base: Experience(
+          id: "1",
+          author: "author",
+          createdAt: randomDate,
+          content: "title",
+          type: AllTypes.read),
       mainContent: "mainContent",
       source: "example.com",
       link: "link"),
@@ -28,8 +20,8 @@ final mTestExps = [
       author: "me",
       createdAt: randomDate,
       content: "Welome!",
-      type: "read"),
-  Read(
+      type: AllTypes.experience),
+/*   Read(
       id: "3",
       author: "second author",
       createdAt: randomDate,
@@ -164,5 +156,5 @@ final mTestExps = [
       title: "Testy!",
       mainContent: "mainContent",
       source: "example.com",
-      link: "link"),
+      link: "link"), */
 ];

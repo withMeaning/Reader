@@ -9,7 +9,7 @@ void goNext(BuildContext context, WidgetRef ref, String id) {
   // TODO replace with db order solution
   // ! this is a hack, and doesn't actually use the order
   final db = ref.read(AppDatabase.provider);
-  (db.select(db.readEntries)..where((tbl) => tbl.id.equals(id)))
+  (db.select(db.readExtras)..where((tbl) => tbl.id.equals(id)))
       .getSingle()
       .then((value) => db
           .customSelect(

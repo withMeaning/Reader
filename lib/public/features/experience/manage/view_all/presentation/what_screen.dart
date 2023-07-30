@@ -51,19 +51,25 @@ class _ViewAllScreenState extends ConsumerState<ViewAllScreen> {
                     itemCount: reads.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                          key: Key(reads[index].id.toString()),
-                          title: Text(reads[index].title),
+                          key: Key(reads[index].base.id.toString()),
+                          title: Text(reads[index].base.content),
                           onTap: () => {
                                 context.pushNamed(AppRoute.exp.name,
-                                    pathParameters: {"id": reads[index].id})
+                                    pathParameters: {
+                                      "id": reads[index].base.id
+                                    })
                               },
-                          subtitle: Text(reads[index].author),
+                          subtitle: Text(reads[index].base.author),
                           trailing: IconButton(
                               onPressed: () {
                                 // TODO: turn into provider
-                                (database.delete(database.readEntries)
+                                (database.delete(database.readExtras)
                                       ..where((tbl) =>
-                                          tbl.id.equals(reads[index].id)))
+                                          tbl.id.equals(reads[index].base.id)))
+                                    .go();
+                                (database.delete(database.experienceEntries)
+                                      ..where((tbl) =>
+                                          tbl.id.equals(reads[index].base.id)))
                                     .go();
                                 //.delete  (reads[index].id);
                               },
