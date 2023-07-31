@@ -24,6 +24,7 @@ enum AppRoute {
   debugDB,
   settings,
   commands,
+  search,
 }
 
 final goRouterProvider = Provider.autoDispose<GoRouter>((ref) {
@@ -45,7 +46,6 @@ final goRouterProvider = Provider.autoDispose<GoRouter>((ref) {
           GoRoute(
             path: 'register',
             name: AppRoute.register.name,
-
             pageBuilder: (_, __) => const MaterialPage(
                 fullscreenDialog: true, //custom animation
                 child: NotYetImplementedScreen()),
@@ -85,6 +85,11 @@ final goRouterProvider = Provider.autoDispose<GoRouter>((ref) {
             path: 'debug/db',
             name: AppRoute.debugDB.name,
             builder: (_, __) => const DBViewScreen(),
+          ),
+          GoRoute(
+            path: 'search',
+            name: AppRoute.search.name,
+            builder: (_, __) => const NotYetImplementedScreen(),
           ),
         ],
       ),

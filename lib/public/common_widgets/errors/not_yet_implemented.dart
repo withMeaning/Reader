@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:read_with_meaning/public/constants/app_sizes.dart';
 
 class NotYetImplementedScreen extends StatelessWidget {
   const NotYetImplementedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Not Yet Implemented'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Not Yet Implemented'),
+            gapH12,
+            ElevatedButton(
+                onPressed: () => context.pop(), child: const Text('Go Back')),
+          ],
+        ),
       ),
     );
   }

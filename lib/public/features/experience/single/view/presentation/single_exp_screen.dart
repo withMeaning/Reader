@@ -35,17 +35,20 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
   bool isHorizontal = false;
   double panY = 0;
   double panX = 0;
-  bool mainTextScrollable = true;
   double menuXposition =
       0; // determines which of the 3 menu icons is selected, 0 if left, 1 if center, 2 if right, double if in transition
-
+  final _image = const AssetImage(colorfulBackgroundImage);
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
+      // ? I don't know what this is here
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await precacheImage(_image, context);
+    });
   }
 
   _reset() {
@@ -104,19 +107,6 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
           isHorizontal = false;
           isNewPan = false;
         });
-        if (isGoingToBeVertical < 0) {
-          Logger().i("Down");
-          // down
-          setState(() {
-            mainTextScrollable = true;
-          });
-        } else {
-          // up
-          Logger().i("Up");
-          setState(() {
-            mainTextScrollable = false;
-          });
-        }
       } else if (isGoingToBeHoritontal.abs() > 10) {
         setState(() {
           isVertical = false;
@@ -137,6 +127,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
     }
     if (isHorizontal) {
       setState(() {
+        topPosition = 0;
         leftPosition += details.delta.dx;
       });
     }
@@ -154,6 +145,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
       } else if (menuXposition > 1.5 && panY > 150) {
         // search
         Logger().i("Search");
+        context.pushNamed(AppRoute.search.name);
       } else {
         // do nothing
         Logger().i("Do Nothing");
@@ -177,6 +169,8 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
     _reset();
   }
 
+  // ! TODO Refactor into seperate Top and Side Navigation widgets
+  // TODO Solve swiping control issues
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,9 +225,8 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
                         child: const Positioned(
                             top: 0, child: Text("Hello World")),
                       ) */
-
-            : const Image(
-                fit: BoxFit.cover, image: AssetImage(colorfulBackgroundImage)),
+            // DONE force load this image first
+            : Image(fit: BoxFit.cover, image: _image),
       ),
       Consumer(builder: (context, ref, child) {
         return GestureDetector(
@@ -251,54 +244,64 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
                     leftPosition,
                     topPosition.clamp(-MediaQuery.of(context).size.height,
                         MediaQuery.of(context).size.height / 6)),
-                child: NoScrollBar(
-                    child: NotificationListener(
-                        onNotification: (_) => false,
-                        child: NotificationListener<OverscrollNotification>(
-                          onNotification: (notification) {
-                            if (notification.overscroll < 0) {
-                              setState(() {
-                                mainTextScrollable = false;
-                              });
-                              return true;
-                            }
-                            return false;
-                          },
-                          child: SingleChildScrollView(
-                              physics: mainTextScrollable
-                                  ? const AlwaysScrollableScrollPhysics()
-                                  : const NeverScrollableScrollPhysics(),
-                              child: Container(
-                                color: Theme.of(context).colorScheme.background,
-                                child: Column(
-                                  children: [
-                                    FullScreenNoAppBar(
-                                        child: Stack(
-                                      children: [
-                                        Flex(
-                                            direction: Axis.vertical,
-                                            children: [
-                                              // * most important part of the screen
-                                              const ActionBox(), // not yet implemented
-                                              ExpandingTitle(id: widget.id),
-                                              Expanded(
-                                                  child: GestureDetector(
-                                                      onTap: () {
-                                                        Logger().i(
-                                                            "Tapped"); // skip, aka. go next without sending resonance
-                                                      },
-                                                      child: Container(
-                                                        color:
-                                                            Colors.transparent,
-                                                      ))),
-                                            ]),
-                                      ],
-                                    )),
-                                    MainText(id: widget.id)
-                                  ],
-                                ),
-                              )),
-                        )))));
+                child: Stack(
+                  children: [
+                    FullScreenNoAppBar(
+                        child: Container(
+                      color: Theme.of(context).colorScheme.background,
+                      child: Stack(
+                        children: [
+                          Flex(direction: Axis.vertical, children: [
+                            // * most important part of the screen
+                            const ActionBox(), // not yet implemented
+                            ExpandingTitle(id: widget.id),
+                            Expanded(
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Logger().i(
+                                          "Tapped"); // skip, aka. go next without sending resonance
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                    ))),
+                          ]),
+                        ],
+                      ),
+                    )),
+                    DraggableScrollableSheet(
+                        initialChildSize: 1 / 6,
+                        minChildSize: 1 / 6,
+                        maxChildSize: 1,
+                        builder: (BuildContext context, myscrollController) {
+                          return Container(
+                            child: NoScrollBar(
+                                child: SingleChildScrollView(
+                                    controller: myscrollController,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height /
+                                                6,
+                                        bottom:
+                                            MediaQuery.of(context).size.height *
+                                                5 /
+                                                6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20))),
+                                      child: Column(
+                                        children: [MainText(id: widget.id)],
+                                      ),
+                                    ))),
+                          );
+                        }),
+                  ],
+                )));
       })
     ])));
   }
