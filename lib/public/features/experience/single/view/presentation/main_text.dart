@@ -20,49 +20,54 @@ class MainText extends ConsumerWidget {
             value: repo,
             data: (currentItem) {
               return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 48.0, right: 48.0),
-                      child: SelectionArea(
-                        onSelectionChanged: (text) {
-                          if (text != null) {
-                            selection = text.plainText;
-                          }
-                        },
-                        contextMenuBuilder: (context, editableTextState) {
-                          return AdaptiveTextSelectionToolbar.buttonItems(
-                              anchors: editableTextState.contextMenuAnchors,
-                              buttonItems:
-                                  editableTextState.contextMenuButtonItems
-                              // TODO replace with Super Editor Selection
-                              /* ..insertAll(0, [
-                                      ContextMenuButtonItem(
-                                          onPressed: () {
-                                            highlight(selection);
-                                          },
-                                          type: ContextMenuButtonType.custom,
-                                          label: "Highlight"),
-                                    ]), */
-                              );
-                        },
-                        focusNode: FocusNode(),
-                        child: MarkdownBody(
-                            styleSheet: MarkdownStyleSheet(
-                              blockquoteDecoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withAlpha(10),
-                                  borderRadius: BorderRadius.circular(4)),
-                            ),
-                            onTapLink: (text, url, title) {
-                              LaunchUrlAndRoute.launch(context, url!);
-                            },
-                            data: currentItem.mainContent),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height - 48,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                        child: SelectionArea(
+                          onSelectionChanged: (text) {
+                            if (text != null) {
+                              selection = text.plainText;
+                            }
+                          },
+                          contextMenuBuilder: (context, editableTextState) {
+                            return AdaptiveTextSelectionToolbar.buttonItems(
+                                anchors: editableTextState.contextMenuAnchors,
+                                buttonItems:
+                                    editableTextState.contextMenuButtonItems
+                                // TODO replace with Super Editor Selection
+                                /* ..insertAll(0, [
+                                        ContextMenuButtonItem(
+                                            onPressed: () {
+                                              highlight(selection);
+                                            },
+                                            type: ContextMenuButtonType.custom,
+                                            label: "Highlight"),
+                                      ]), */
+                                );
+                          },
+                          focusNode: FocusNode(),
+                          child: MarkdownBody(
+                              styleSheet: MarkdownStyleSheet(
+                                blockquoteDecoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withAlpha(10),
+                                    borderRadius: BorderRadius.circular(4)),
+                              ),
+                              onTapLink: (text, url, title) {
+                                LaunchUrlAndRoute.launch(context, url!);
+                              },
+                              data: currentItem.mainContent),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }),

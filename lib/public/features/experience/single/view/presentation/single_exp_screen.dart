@@ -285,10 +285,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
                                         top:
                                             MediaQuery.of(context).size.height /
                                                 6,
-                                        bottom:
-                                            MediaQuery.of(context).size.height *
-                                                1 /
-                                                6,
+                                        bottom: 24,
                                       ),
                                       decoration: BoxDecoration(
                                           color: Theme.of(context)
