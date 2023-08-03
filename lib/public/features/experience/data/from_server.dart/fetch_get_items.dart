@@ -8,7 +8,7 @@ Future<http.Response> getItems() async {
   var res = http.get(
     Uri.parse('$baseURL/get_items'),
     headers: <String, String>{'auth_token': authToken},
-  ).timeout(const Duration(seconds: 2), onTimeout: () {
+  ).timeout(const Duration(seconds: 120), onTimeout: () {
     throw TimeoutException('The connection has timed out!');
   });
   return res;

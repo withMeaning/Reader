@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:read_with_meaning/public/constants/image_strings.dart';
 
 class BackgroundImage extends StatelessWidget {
   const BackgroundImage({super.key, required this.child});
@@ -8,7 +9,7 @@ class BackgroundImage extends StatelessWidget {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('https://source.unsplash.com/random'),
+            image: NetworkImage(randomImage),
             fit: BoxFit.cover,
           ),
         ),

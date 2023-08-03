@@ -19,7 +19,7 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
 
   @override
   Widget build(BuildContext context) {
-    var repo = ref.watch(readFutureProvider(widget.id));
+    var repo = ref.watch(readStreamProvider(widget.id));
     return ResponsiveCenter(
       child: Padding(
         padding: padding32,

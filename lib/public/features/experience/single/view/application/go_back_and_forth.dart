@@ -4,22 +4,35 @@ import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/public/features/experience/data/database/database.dart';
 import 'package:read_with_meaning/public/routing/routes.dart';
 
-void goNext(BuildContext context, WidgetRef ref, String id) {
+void goNext(BuildContext context, WidgetRef ref, String id) async {
   // * could also go into route /next. Previous is just a pop.
   // TODO replace with db order solution
   // ! this is a hack, and doesn't actually use the order
   final db = ref.read(AppDatabase.provider);
-  (db.select(db.readExtras)..where((tbl) => tbl.id.equals(id)))
+  Order currentIndex = await (db.select(db.orders)
+        ..where((tbl) => tbl.id.equals(id)))
+      .getSingle();
+  try {
+    String nextId = await (db.select(db.orders)
+          ..where((tbl) => tbl.orderIndex.equals(currentIndex.orderIndex + 1)))
+        .getSingle()
+        .then((value) => value.id);
+    context.pushNamed(AppRoute.exp.name, pathParameters: {"id": nextId});
+  } catch (e) {
+    context.pushNamed(AppRoute.done.name);
+    return;
+  }
+  /* (db.select(db.readExtras)..where((tbl) => tbl.id.equals(id)))
       .getSingle()
       .then((value) => db
           .customSelect(
               "SELECT * FROM read_entries WHERE id > '${value.id}' ORDER BY id ASC LIMIT 1")
           .getSingle())
       .then((value) => context.pushNamed(AppRoute.exp.name,
-          pathParameters: {"id": value.data["id"]}));
+          pathParameters: {"id": value.data["id"]})); */
 }
 
-void goPrevious(BuildContext context, WidgetRef ref, String id) {
+/* void goPrevious(BuildContext context, WidgetRef ref, String id) {
   context.pop();
   /*final db = ref.read(AppDatabase.provider);
   (db.select(db.readEntries)..where((tbl) => tbl.id.equals(id)))
@@ -30,4 +43,4 @@ void goPrevious(BuildContext context, WidgetRef ref, String id) {
           .getSingle())
       .then((value) => context.goNamed(AppRoute.exp.name,
           pathParameters: {"id": value.data["id"]}));*/
-}
+} */

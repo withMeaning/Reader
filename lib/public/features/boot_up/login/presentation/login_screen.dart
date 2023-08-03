@@ -52,8 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _submit() {
     if (_formKey.currentState!.validate()) {
-      logIn(context, _privateKeyController.text, mounted).then((redirectYes) =>
-          redirectYes ? context.replaceNamed(AppRoute.now.name) : null);
+      logIn(context, _privateKeyController.text.trim(), mounted).then(
+          (redirectYes) =>
+              redirectYes ? context.replaceNamed(AppRoute.now.name) : null);
     }
   }
 

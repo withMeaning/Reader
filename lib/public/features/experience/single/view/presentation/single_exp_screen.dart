@@ -74,7 +74,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
   }
 
   _onPanUpdate(DragUpdateDetails details) {
-    Logger().i("Pan Update: ${details.delta}");
+    //Logger().i("Pan Update: ${details.delta}");
     // this determines the direction of the pan
     final screenWidth = MediaQuery.of(context).size.width;
     setState(() {
@@ -162,7 +162,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
         goNext(context, ref, widget.id);
       }
       if (leftPosition < -100) {
-        goPrevious(context, ref, widget.id);
+        goNext(context, ref, widget.id);
       }
       _resetPosition();
     }
@@ -258,8 +258,11 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
                             Expanded(
                                 child: GestureDetector(
                                     onTap: () {
-                                      Logger().i(
-                                          "Tapped"); // skip, aka. go next without sending resonance
+                                      goNext(
+                                          context,
+                                          ref,
+                                          widget
+                                              .id); // skip, aka. go next without sending resonance
                                     },
                                     child: Container(
                                       color: Colors.transparent,
@@ -284,7 +287,7 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
                                                 6,
                                         bottom:
                                             MediaQuery.of(context).size.height *
-                                                5 /
+                                                1 /
                                                 6,
                                       ),
                                       decoration: BoxDecoration(

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LaunchUrlAndRoute {
   static Future<void> launch(BuildContext context, String url) async {
+    //this way you can link between experiences / to differnet routes
     if (url.startsWith("route:")) {
       context.push(url.substring(6));
     } else {

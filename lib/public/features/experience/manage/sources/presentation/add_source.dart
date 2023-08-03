@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/public/constants/app_sizes.dart';
-import 'package:read_with_meaning/public/constants/text_strings.dart';
-import 'package:read_with_meaning/public/features/boot_up/login/data/secure_login/storage.dart';
 import 'package:read_with_meaning/public/features/experience/data/database/database.dart';
-import 'package:http/http.dart' as http;
+import 'package:read_with_meaning/public/features/experience/data/from_server.dart/add_item.dart';
 
 // ? is there a cleaner way to pass the ref to application add_exp_to_db.dart?
 class AddSourceForm extends ConsumerStatefulWidget {
@@ -37,7 +33,7 @@ class _AddExpFormState extends ConsumerState<AddSourceForm> {
             children: <Widget>[
               TextFormField(
                 controller: _linkController,
-                decoration: const InputDecoration(labelText: 'Link'),
+                decoration: const InputDecoration(labelText: 'Paste RSS Feed'),
                 onFieldSubmitted: (_) {
                   _submit();
                 },
@@ -75,22 +71,3 @@ class _AddExpFormState extends ConsumerState<AddSourceForm> {
     super.dispose();
   }
 }
-
-Future<http.Response> addSource(String source) async {
-  String authToken = await secureStorage.read(key: 'authToken') ?? "";
-  final bodyJson = json.encode({"source": source});
-  debugPrint(bodyJson);
-  var res = http
-      .post(Uri.parse('$baseURL/add_source'),
-          headers: <String, String>{
-            'auth_token': authToken,
-            "Content-Type": "application/json",
-          },
-          body: bodyJson)
-      .timeout(const Duration(seconds: 2), onTimeout: () {
-    throw TimeoutException();
-  });
-  return res;
-}
-
-class TimeoutException {}

@@ -5,6 +5,7 @@ import 'package:read_with_meaning/public/common_widgets/errors/not_yet_implement
 import 'package:read_with_meaning/public/features/experience/manage/debug_admin/db_view.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sort/data/order_repositority.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sources/presentation/sources_screen.dart';
+import 'package:read_with_meaning/public/features/experience/single/inbox_zero.dart/presentation/inbox_zero_screen.dart';
 import 'package:read_with_meaning/public/features/experience/single/view/presentation/single_exp_screen.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sort/presentation/when_screen.dart';
 
@@ -25,6 +26,7 @@ enum AppRoute {
   settings,
   commands,
   search,
+  done,
 }
 
 final goRouterProvider = Provider.autoDispose<GoRouter>((ref) {
@@ -90,6 +92,11 @@ final goRouterProvider = Provider.autoDispose<GoRouter>((ref) {
             path: 'search',
             name: AppRoute.search.name,
             builder: (_, __) => const NotYetImplementedScreen(),
+          ),
+          GoRoute(
+            path: 'done',
+            name: AppRoute.done.name,
+            builder: (_, __) => const InboxZeroScreen(),
           ),
         ],
       ),

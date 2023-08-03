@@ -38,11 +38,31 @@ class ReadReposiory {
     return Read.fromReadEntry(expResult, readResult);
   }
 
+  Stream<Read> watchSingleRead(AppDatabase db, String id) async* {
+    var firstQuery =
+        (db.select(db.experienceEntries)..where((tbl) => tbl.id.equals(id)));
+    Stream<List<TypedResult>> query = firstQuery.join([
+      innerJoin(
+          db.readExtras, db.readExtras.id.equalsExp(db.experienceEntries.id))
+    ]).watch();
+
+    /*  ExperienceEntry expResult = query.first.readTable(db.experienceEntries);
+    ReadExtra readResult = (await query).first.readTable(db.readExtras); */
+
+    yield* query.map((entries) {
+      return entries.map((entry) {
+        ExperienceEntry expResult = entry.readTable(db.experienceEntries);
+        ReadExtra readResult = entry.readTable(db.readExtras);
+        return Read.fromReadEntry(expResult, readResult);
+      }).first;
+    });
+  }
+
   void addRead(AppDatabase db, Read read) async {
     String generatedId = const Uuid().v4();
     await db.into(db.experienceEntries).insert(
         ExperienceEntriesCompanion.insert(
-          id: generatedId,
+          id: read.base.id != "" ? read.base.id : generatedId,
           content: read.base.content,
           author: read.base.author,
           createdAt: read.base.createdAt,
@@ -53,7 +73,7 @@ class ReadReposiory {
         ReadExtrasCompanion.insert(
           mainContent: read.mainContent,
           link: read.link,
-          id: generatedId,
+          id: read.base.id != "" ? read.base.id : generatedId,
           source: read.source,
         ),
         mode: InsertMode.insertOrIgnore);
@@ -80,6 +100,13 @@ final readFutureProvider =
   final database = ref.watch(AppDatabase.provider);
   final ReadReposiory repository = ref.watch(readsRepositoryProvider);
   return repository.fetchRead(database, id);
+});
+
+final readStreamProvider =
+    StreamProvider.autoDispose.family<Read, String>((ref, id) {
+  final database = ref.watch(AppDatabase.provider);
+  final ReadReposiory repository = ref.watch(readsRepositoryProvider);
+  return repository.watchSingleRead(database, id);
 });
 
 final addReadProvider = Provider.autoDispose.family<void, Read>((ref, read) {
