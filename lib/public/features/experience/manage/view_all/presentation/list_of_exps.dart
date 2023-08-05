@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sort/data/order_repositority.dart';
 import 'package:read_with_meaning/shared/domain/types/read.dart';
 
 class ListOfReads extends ConsumerStatefulWidget {
-  const ListOfReads({super.key});
-
+  const ListOfReads({super.key, required this.scrollController});
+  final ScrollController scrollController;
   @override
   ConsumerState<ListOfReads> createState() => _ListStreamState();
 }
@@ -39,16 +40,31 @@ class _ListStreamState extends ConsumerState<ListOfReads> {
         ),
         data: (List<Read> onlyReadItems) {
           var list = onlyReadItems
-              .map((Read exp) => ListTile(
+              .map((Read exp) => Dismissible(
                     key: Key(exp.base.id),
-                    title: Text(exp.base.content),
-                    onTap: () => {
-                      ref.read(addToTopProvider(exp.base.id)),
+                    background: Container(color: Colors.red),
+                    secondaryBackground: Container(color: Colors.green),
+                    onDismissed: (direction) {
+                      if (direction == DismissDirection.endToStart) {
+                        Logger().d("Dismissed to the left");
+                      } else {
+                        Logger().d("Dismissed to the right");
+                      }
                     },
-                    subtitle: Text(exp.base.author),
+                    child: ListTile(
+                      key: Key(exp.base.id),
+                      title: Text(exp.base.content),
+                      onTap: () => {
+                        ref.read(addToTopProvider(exp.base.id)),
+                      },
+                      subtitle: Text(exp.base.author),
+                    ),
                   ))
               .toList();
-          return ListView(children: list);
+          return ListView(
+              controller: widget.scrollController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: list);
         });
   }
 }

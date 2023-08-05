@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 import 'package:read_with_meaning/public/constants/colors.dart';
 import 'package:read_with_meaning/public/constants/text_strings.dart';
@@ -10,13 +11,27 @@ import 'package:read_with_meaning/public/routing/routes.dart';
 
 import 'package:flutter/services.dart';
 
+final Logger logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+    errorMethodCount: 8,
+    lineLength: 120,
+    colors: true,
+    printEmojis: true,
+    printTime: false,
+  ),
+  level: Level.debug, //main function to tell what to show
+);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // * For more info on error handling, see:
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     // * Entry point of the app
-    runApp(const ProviderScope(child: Meaning()));
+    runApp(const ProviderScope(
+        overrides: [], // for mocking dbs and setting env variables for each main
+        child: Meaning()));
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {

@@ -26,10 +26,12 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
         header: widget.header,
         children: _items,
         onReorder: (int oldIndex, int newIndex) {
+          // update the UI
           if (oldIndex < newIndex) newIndex -= 1;
           final Widget item = _items.removeAt(oldIndex);
           _items.insert(newIndex, item);
 
+          // update the db
           reorder(ref, oldIndex, newIndex);
         },
       );

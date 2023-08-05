@@ -29,4 +29,6 @@ const _$AppRouteEnumMap = {
   AppRoute.debugDB: 'debugDB',
   AppRoute.settings: 'settings',
   AppRoute.commands: 'commands',
+  AppRoute.search: 'search',
+  AppRoute.done: 'done',
 };

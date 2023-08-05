@@ -8,6 +8,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'read.freezed.dart';
 part 'read.g.dart';
 
+/* sealed class ReadModel extednds ExperienceModel {
+
+  fromRead (Read read ) {
+    return ReadModel(
+      id: read.base.id,
+    )};
+} */
+
 @freezed
 class Read with _$Read {
   const factory Read({

@@ -75,8 +75,8 @@ class OrderRepository {
       innerJoin(
           db.readExtras, db.readExtras.id.equalsExp(db.experienceEntries.id)),
       innerJoin(db.orders, db.orders.id.equalsExp(db.experienceEntries.id))
-    ]);
-    query.orderBy([OrderingTerm.asc(db.orders.orderIndex)]);
+    ])
+      ..orderBy([OrderingTerm.asc(db.orders.orderIndex)]);
 
     yield* query.watch().map((entries) {
       return entries.map((entry) {
