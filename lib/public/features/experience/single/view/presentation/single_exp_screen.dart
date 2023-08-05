@@ -174,136 +174,152 @@ class _SingleExperienceScreenState extends State<SingleExperienceScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Stack(children: [
-      FullScreenNoAppBar(
-        child: isVertical
-            ? SizedBox(
-                height: MediaQuery.of(context).size.height / 6,
-                child: Transform.translate(
-                  offset: Offset(
-                      0,
-                      panY.clamp(0, MediaQuery.of(context).size.height / 6) -
-                          100),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SwipeableIcon(
-                        isSelected: menuXposition < 0.5 && panY > 150,
-                        opacity: menuXposition < 0.5
-                            ? (1.2 - menuXposition.clamp(0.2, 0.5))
-                                .clamp(0.7, 1)
-                            : 0.2,
-                        labelText: "Refresh",
-                        icon: Icons.refresh,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            FullScreenNoAppBar(
+              child: isVertical
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height / 6,
+                      child: Transform.translate(
+                        offset: Offset(
+                            0,
+                            panY.clamp(
+                                    0, MediaQuery.of(context).size.height / 6) -
+                                100),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SwipeableIcon(
+                              isSelected: menuXposition < 0.5 && panY > 150,
+                              opacity: menuXposition < 0.5
+                                  ? (1.2 - menuXposition.clamp(0.2, 0.5))
+                                      .clamp(0.7, 1)
+                                  : 0.2,
+                              labelText: "Refresh",
+                              icon: Icons.refresh,
+                            ),
+                            SwipeableIcon(
+                              isSelected: menuXposition > 0.5 &&
+                                  menuXposition < 1.5 &&
+                                  panY > 150,
+                              opacity:
+                                  menuXposition > 0.5 && menuXposition < 1.5
+                                      ? (1.2 - (menuXposition - 1).abs())
+                                          .clamp(0.7, 1)
+                                      : 0.2,
+                              labelText: "Today",
+                              icon: Icons.density_small_outlined,
+                            ),
+                            SwipeableIcon(
+                              isSelected: menuXposition > 1.5 && panY > 150,
+                              opacity: menuXposition > 1.5
+                                  ? (1.2 - (menuXposition - 2).abs())
+                                      .clamp(0.7, 1)
+                                  : 0.2,
+                              labelText: "Search",
+                              icon: Icons.search,
+                            ),
+                          ],
+                        ),
                       ),
-                      SwipeableIcon(
-                        isSelected: menuXposition > 0.5 &&
-                            menuXposition < 1.5 &&
-                            panY > 150,
-                        opacity: menuXposition > 0.5 && menuXposition < 1.5
-                            ? (1.2 - (menuXposition - 1).abs()).clamp(0.7, 1)
-                            : 0.2,
-                        labelText: "Today",
-                        icon: Icons.density_small_outlined,
-                      ),
-                      SwipeableIcon(
-                        isSelected: menuXposition > 1.5 && panY > 150,
-                        opacity: menuXposition > 1.5
-                            ? (1.2 - (menuXposition - 2).abs()).clamp(0.7, 1)
-                            : 0.2,
-                        labelText: "Search",
-                        icon: Icons.search,
-                      ),
-                    ],
-                  ),
-                ),
-              ) /* 
+                    ) /* 
                       Transform.translate(
                         offset: Offset(panX, 0),
                         child: const Positioned(
                             top: 0, child: Text("Hello World")),
                       ) */
-            // DONE force load this image first
-            : Image(fit: BoxFit.cover, image: _image),
-      ),
-      Consumer(builder: (context, ref, child) {
-        return GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            // Implementing the GestureDetector to detect the user drag
-            key: _key,
-            onPanUpdate: (details) {
-              _onPanUpdate(details);
-            },
-            onPanEnd: (_) {
-              _onPanEnd(ref);
-            },
-            child: Transform.translate(
-                offset: Offset(
-                    leftPosition,
-                    topPosition.clamp(-MediaQuery.of(context).size.height,
-                        MediaQuery.of(context).size.height / 6)),
-                child: Stack(
-                  children: [
-                    FullScreenNoAppBar(
-                        child: Container(
-                      color: Theme.of(context).colorScheme.background,
+                  // DONE force load this image first
+                  : Image(fit: BoxFit.cover, image: _image),
+            ),
+            Consumer(builder: (context, ref, child) {
+              return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  // Implementing the GestureDetector to detect the user drag
+                  key: _key,
+                  onPanUpdate: (details) {
+                    _onPanUpdate(details);
+                  },
+                  onPanEnd: (_) {
+                    _onPanEnd(ref);
+                  },
+                  child: Transform.translate(
+                      offset: Offset(
+                          leftPosition,
+                          topPosition.clamp(-MediaQuery.of(context).size.height,
+                              MediaQuery.of(context).size.height / 6)),
                       child: Stack(
                         children: [
-                          Flex(direction: Axis.vertical, children: [
-                            // * most important part of the screen
-                            const ActionBox(), // not yet implemented
-                            ExpandingTitle(id: widget.id),
-                            Expanded(
-                                child: GestureDetector(
-                                    onTap: () {
-                                      goNext(
-                                          context,
-                                          ref,
-                                          widget
-                                              .id); // skip, aka. go next without sending resonance
-                                    },
-                                    child: Container(
-                                      color: Colors.transparent,
-                                    ))),
-                          ]),
+                          FullScreenNoAppBar(
+                              child: Container(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Stack(
+                              children: [
+                                Flex(direction: Axis.vertical, children: [
+                                  // * most important part of the screen
+                                  const ActionBox(), // not yet implemented
+                                  ExpandingTitle(id: widget.id),
+                                  Expanded(
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            goNext(
+                                                context,
+                                                ref,
+                                                widget
+                                                    .id); // skip, aka. go next without sending resonance
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                          ))),
+                                ]),
+                              ],
+                            ),
+                          )),
+                          DraggableScrollableSheet(
+                              initialChildSize: 1 / 6,
+                              minChildSize: 1 / 6,
+                              maxChildSize: 1,
+                              builder:
+                                  (BuildContext context, myscrollController) {
+                                return Container(
+                                  child: NoScrollBar(
+                                      child: SingleChildScrollView(
+                                          controller: myscrollController,
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  6,
+                                              bottom: 24,
+                                            ),
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .background,
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(20),
+                                                        topRight:
+                                                            Radius.circular(
+                                                                20))),
+                                            child: Column(
+                                              children: [
+                                                MainText(id: widget.id)
+                                              ],
+                                            ),
+                                          ))),
+                                );
+                              }),
                         ],
-                      ),
-                    )),
-                    DraggableScrollableSheet(
-                        initialChildSize: 1 / 6,
-                        minChildSize: 1 / 6,
-                        maxChildSize: 1,
-                        builder: (BuildContext context, myscrollController) {
-                          return Container(
-                            child: NoScrollBar(
-                                child: SingleChildScrollView(
-                                    controller: myscrollController,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                        top:
-                                            MediaQuery.of(context).size.height /
-                                                6,
-                                        bottom: 24,
-                                      ),
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                          borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20))),
-                                      child: Column(
-                                        children: [MainText(id: widget.id)],
-                                      ),
-                                    ))),
-                          );
-                        }),
-                  ],
-                )));
-      })
-    ])));
+                      )));
+            })
+          ],
+        ),
+      ),
+    );
   }
 }
                     

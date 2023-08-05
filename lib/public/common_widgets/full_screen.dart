@@ -6,10 +6,11 @@ class FullScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height -
-          Scaffold.of(context).appBarMaxHeight!.toInt() -
-          MediaQuery.of(context).padding.top,
+      width: MediaQuery.maybeSizeOf(context)?.width,
+      height: MediaQuery.maybeSizeOf(context)?.height ??
+          0 -
+              Scaffold.of(context).appBarMaxHeight!.toInt() -
+              MediaQuery.of(context).padding.top,
       child: child,
     );
   }

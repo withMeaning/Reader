@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
+import 'package:read_with_meaning/public/common_widgets/navigation/main_swipe_navigation.dart';
 import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
 import 'package:read_with_meaning/public/features/experience/manage/sort/data/order_repositority.dart';
 import 'package:read_with_meaning/shared/domain/types/read.dart';
 
-class ListOfReads extends ConsumerStatefulWidget {
-  const ListOfReads({super.key, required this.scrollController});
-  final ScrollController scrollController;
+class ListOfReads extends ConsumerStatefulWidget implements ScrollableWidget {
+  const ListOfReads({super.key, this.scrollController});
+  final ScrollController? scrollController;
+  @override
+  Widget rebuildWithScrollController(ScrollController controller) {
+    return ListOfReads(scrollController: controller);
+  }
+
   @override
   ConsumerState<ListOfReads> createState() => _ListStreamState();
 }
