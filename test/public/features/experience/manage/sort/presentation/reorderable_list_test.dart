@@ -15,7 +15,7 @@ void main() {
       // TODO: Pump the UI
       Widget text = const Text("Hello");
       await tester.pumpWidget(Material(
-        child: Scaffold(body: text),
+        child: Scaffold(body: Center(child: text)),
       )); // does not wait for animation to build
 
       // TODO: Verify the result

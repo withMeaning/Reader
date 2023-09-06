@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_with_meaning/public/features/boot_up/login/data/secure_login/utils.dart';
-
-import '../../../../routing/routes.dart';
+import 'package:read_with_meaning/public/features/experience/plan/stream_file/data/realm_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,36 +24,43 @@ class _LoginScreenState extends State<LoginScreen> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Padding(
           padding: const EdgeInsets.all(28),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                controller: _privateKeyController,
-                decoration: const InputDecoration(labelText: 'Private Key'),
-                obscureText: true,
-                onFieldSubmitted: (_) {
-                  _submit();
-                },
-                textInputAction: TextInputAction.done,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _submit();
-                },
-                child: const Text('Submit'),
-              )
-            ],
-          ),
+          child: Consumer(builder: (context, ref, __) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  controller: _privateKeyController,
+                  decoration: const InputDecoration(labelText: 'Private Key'),
+                  obscureText: true,
+                  onFieldSubmitted: (_) {
+                    _submit(ref);
+                  },
+                  textInputAction: TextInputAction.done,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _submit(ref);
+                  },
+                  child: const Text('Submit'),
+                )
+              ],
+            );
+          }),
         ),
       ),
     );
   }
 
-  _submit() {
+  _submit(WidgetRef ref) {
     if (_formKey.currentState!.validate()) {
-      logIn(context, _privateKeyController.text.trim(), mounted).then(
-          (redirectYes) =>
-              redirectYes ? context.replaceNamed(AppRoute.now.name) : null);
+      logIn(context, _privateKeyController.text.trim(), mounted)
+          .then((redirectYes) {
+        ref.read(loginRealmRepositoryProvider);
+        ref.refresh(currentUserProvider);
+        //ref.read(realmSetupProvider);
+        //Logger().i('realm: ${ref.read(realmProvider)}');
+        //redirectYes ? context.replaceNamed(AppRoute.now.name) : null;
+      });
     }
   }
 

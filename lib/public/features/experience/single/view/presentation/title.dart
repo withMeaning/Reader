@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/public/common_widgets/responsive/responsive_center.dart';
 import 'package:read_with_meaning/public/constants/app_sizes.dart';
-import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
+import 'package:read_with_meaning/public/features/experience/plan/stream_file/data/realm_repository.dart';
 
 class ExpandingTitle extends ConsumerStatefulWidget {
   const ExpandingTitle({super.key, required this.id});
@@ -19,13 +17,28 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
 
   @override
   Widget build(BuildContext context) {
-    var repo = ref.watch(readStreamProvider(widget.id));
+    //var repo = ref.watch(readStreamProvider(widget.id));
     return ResponsiveCenter(
       child: Padding(
         padding: padding32,
         child: Column(
           children: [
-            AsyncValueWidget(
+            Consumer(builder: ((context, ref, child) {
+              /* Realm? realm = ref.watch(realmProvider);
+              if (realm == null) {
+                return const Text("Loading...");
+              } */
+              return StreamBuilder<Object>(
+                  stream: ref.read(nowProvider).changes,
+                  builder: (context, snapshot) {
+                    return Text(
+                      ref.read(nowProvider).experience?.content ?? "",
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    );
+                  });
+            })),
+            /* AsyncValueWidget(
                 value: repo,
                 data: (currentItem) {
                   return InkWell(
@@ -36,17 +49,20 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
                         });
                       },
                       // TODO on very small screens maxLines should be dynamic
-                      child: Text(currentItem.base.content,
-                          textAlign: TextAlign.center,
-                          softWrap: true,
-                          maxLines: 7,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headlineLarge));
-                }),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                        child: Text(currentItem.base.content,
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            maxLines: 7,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headlineLarge),
+                      ));
+                }), */
             if (isExpanded)
-              Column(children: [
+              const Column(children: [
                 gapH12,
-                AsyncValueWidget(
+                /* AsyncValueWidget(
                     value: repo,
                     data: (currentItem) {
                       return Padding(
@@ -56,14 +72,14 @@ class _ExpandingTitleState extends ConsumerState<ExpandingTitle> {
                             softWrap: true,
                             style: Theme.of(context).textTheme.titleLarge),
                       );
-                    }),
+                    }), */
                 gapH12,
-                AsyncValueWidget(
+                /* AsyncValueWidget(
                     value: repo,
                     data: (currentItem) {
                       return Text(currentItem.summary ?? "",
                           style: Theme.of(context).textTheme.bodyMedium);
-                    }),
+                    }), */
               ])
           ],
         ),

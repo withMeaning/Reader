@@ -54,6 +54,8 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   coverage: ^1.6.3
+  realm: ^1.4.0
+  collection: ^1.17.1
 
 dev_dependencies:
   flutter_test:
@@ -82,10 +84,19 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: icomoon
+      fonts:
+        - asset: assets/fonts/icomoon.ttf
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/meaning-icon-transparent.png
      - assets/images/withmeaning.webp
+     - assets/images/good_rating_background.png
+     - assets/images/bad_rating_background.png
+     - assets/images/black_to_background.png
+     - assets/images/navigation_background.png
+     - assets/images/navigation_background_transparent.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

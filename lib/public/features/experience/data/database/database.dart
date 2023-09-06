@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_with_meaning/public/features/experience/manage/sort/domain/ordered.dart';
-import 'package:read_with_meaning/public/features/experience/manage/sources/domain/source_table.dart';
+import 'package:read_with_meaning/public/features/experience/plan/sort/domain/ordered.dart';
+import 'package:read_with_meaning/public/features/experience/plan/sources/domain/source_table.dart';
 import 'package:read_with_meaning/shared/domain/all_types_definition.dart';
 import 'package:read_with_meaning/shared/domain/experience.dart';
 import 'package:read_with_meaning/shared/domain/types/_command.dart';
@@ -32,7 +32,7 @@ part 'database.g.dart';
   Orders,
   Sources
 ], include: {
-  'package:read_with_meaning/public/features/experience/manage/sort/data/order_sql.drift'
+  'package:read_with_meaning/public/features/experience/plan/sort/data/order_sql.drift'
 })
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(impl.connect());

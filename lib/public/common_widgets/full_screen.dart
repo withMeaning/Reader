@@ -22,8 +22,8 @@ class FullScreenNoAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height -
+      width: MediaQuery.maybeOf(context)?.size.width,
+      height: (MediaQuery.maybeOf(context)?.size.height ?? 0) -
           MediaQuery.of(context).padding.top,
       child: child,
     );

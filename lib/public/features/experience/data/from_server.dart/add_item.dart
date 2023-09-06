@@ -7,13 +7,27 @@ import 'package:read_with_meaning/public/features/boot_up/login/data/secure_logi
 import 'package:read_with_meaning/shared/domain/types/read.dart';
 
 Future<http.Response> addRead(Read read) async {
+  Logger().d("posting read: $read");
   String authToken = await secureStorage.read(key: 'authToken') ?? "";
-  var res = http.get(
-    Uri.parse('$baseURL/add_item'),
-    headers: <String, String>{'auth_token': authToken},
-  ).timeout(const Duration(seconds: 5), onTimeout: () {
-    throw TimeoutException('The connection has timed out!');
+  final bodyJson = json.encode({
+    "title": read.base.content,
+    "content": read.mainContent,
+    "author": read.base.author,
+    "link": read.link,
+    "type": "read"
   });
+  Logger().d(bodyJson);
+  var res = http
+      .post(Uri.parse('$baseURL/add_item'),
+          headers: <String, String>{
+            'auth_token': authToken,
+            "Content-Type": "application/json",
+          },
+          body: bodyJson)
+      .timeout(const Duration(seconds: 120), onTimeout: () {
+    throw TimeoutException("The connection has timed out!");
+  });
+
   return res;
 }
 
@@ -48,5 +62,28 @@ Future<http.Response> addSource(String source) async {
       .timeout(const Duration(seconds: 5), onTimeout: () {
     throw TimeoutException("The connection has timed out!");
   });
+  return res;
+}
+
+Future<http.Response> addResonance(String expId, int resonance) async {
+  Logger().d("posting resonance $resonance for exp $expId");
+  String authToken = await secureStorage.read(key: 'authToken') ?? "";
+  final bodyJson = json.encode({
+    "content": resonance.toString(),
+    "link": expId,
+    "type": "resonance",
+  });
+  Logger().d(bodyJson);
+  var res = http
+      .post(Uri.parse('$baseURL/add_item'),
+          headers: <String, String>{
+            'auth_token': authToken,
+            "Content-Type": "application/json",
+          },
+          body: bodyJson)
+      .timeout(const Duration(seconds: 120), onTimeout: () {
+    throw TimeoutException("The connection has timed out!");
+  });
+
   return res;
 }

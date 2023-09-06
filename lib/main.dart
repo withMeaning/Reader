@@ -29,9 +29,7 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     // * Entry point of the app
-    runApp(const ProviderScope(
-        overrides: [], // for mocking dbs and setting env variables for each main
-        child: Meaning()));
+    runApp(const ProviderScope(child: Meaning()));
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
@@ -60,8 +58,10 @@ class Meaning extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
     if (Platform.isAndroid) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.transparent,
+          statusBarColor: Colors.transparent,
           systemNavigationBarIconBrightness: Brightness.dark));
     }
     return MaterialApp.router(

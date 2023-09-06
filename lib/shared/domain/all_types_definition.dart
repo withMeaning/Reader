@@ -6,7 +6,7 @@ enum AllTypes {
   experience("experience"), // default, shouldn't be used, but can be displayed
   see("see"), // for tweets and other "just acknowledge" exps
   read("read"),
-  watch("watch, see"), // for articles
+  watch("watch, see"), // for videos
   write("write"), // for editable text
   note("note, write"), // for notes / highlights relating to other exps
   doit("do"), // for tasks

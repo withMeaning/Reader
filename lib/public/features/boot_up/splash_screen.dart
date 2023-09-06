@@ -25,16 +25,19 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    _controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this)
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              checkUserAuthorizationStatus(mounted).then((isLoggedIn) =>
-                  isLoggedIn
-                      ? context.replaceNamed(AppRoute.now.name)
-                      : context.replaceNamed(AppRoute.login.name));
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 400), vsync: this)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          checkUserAuthorizationStatus(mounted).then((isLoggedIn) {
+            if (isLoggedIn) {
+              context.replaceNamed(AppRoute.now.name);
+            } else {
+              context.replaceNamed(AppRoute.login.name);
             }
           });
+        }
+      });
     _controller.forward();
   }
 

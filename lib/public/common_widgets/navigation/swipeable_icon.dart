@@ -24,21 +24,14 @@ class _SwipeableIconState extends State<SwipeableIcon> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
-          surfaceTintColor: Theme.of(context).colorScheme.onBackground,
-          elevation: widget.isSelected ? 1 : 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(1000.0),
-          ),
-          child: Padding(
-            padding: padding12,
-            child: Icon(widget.icon,
-                size: widget.iconSize ?? 40.0,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onBackground
-                    .withOpacity(widget.opacity ?? 1)),
-          ),
+        Padding(
+          padding: padding12,
+          child: Icon(widget.icon,
+              size: widget.iconSize ?? 40.0,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onBackground
+                  .withOpacity(widget.opacity ?? 1)),
         ),
         widget.isSelected && widget.labelText != null
             ? Text(widget.labelText!,

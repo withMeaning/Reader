@@ -10,16 +10,16 @@ class NotFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text('404'),
           gapW8,
           ElevatedButton(
               onPressed: () {
-                context.goNamed(AppRoute.home.name);
+                context.goNamed(AppRoute.lakes.name);
               },
-              child: const Text('Go Back to Safety')),
+              child: const Text('Go Back')),
         ],
       ),
     );
