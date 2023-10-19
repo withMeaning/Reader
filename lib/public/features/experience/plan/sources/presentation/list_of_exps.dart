@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_with_meaning/localization/string_hardcoded.dart';
-import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/public/common_widgets/navigation/main_swipe_navigation.dart';
-import 'package:read_with_meaning/public/common_widgets/navigation/top_label.dart';
-import 'package:read_with_meaning/public/features/experience/data/database/database.dart';
-import 'package:read_with_meaning/public/features/experience/plan/sort/presentation/stream_as_draggable_sheet.dart';
-import 'package:read_with_meaning/public/features/experience/plan/sources/data/sources_repository.dart';
-import 'package:read_with_meaning/public/routing/routes.dart';
 
 class ListOfSources extends ConsumerStatefulWidget implements ScrollableWidget {
   const ListOfSources({super.key, this.scrollController});
@@ -36,7 +29,9 @@ class _ListStreamState extends ConsumerState<ListOfSources> {
         data: (value) => {value.value.map((e) => Read.fromReadEntry(e))},
         error: (asyncError) => placeholderRead,
         loading: (asyncLoading) => placeholderRead); */
-    final readRepository = ref.watch(sourcesListRepositoryStreamProvider);
+    return Container();
+// ! Drift
+/*     final readRepository = ref.watch(sourcesListRepositoryStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
         placeholder: SizedBox(
@@ -66,6 +61,6 @@ class _ListStreamState extends ConsumerState<ListOfSources> {
               const StreamAsDraggableSheet()
             ],
           );
-        });
+        }); */
   }
 }

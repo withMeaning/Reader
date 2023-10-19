@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_with_meaning/public/features/experience/plan/sort/data/order_repositority.dart';
 import 'package:read_with_meaning/public/features/experience/plan/sort/domain/sort.dart';
 
 // TODO implement with riverpod and build List<Order>
@@ -9,7 +8,8 @@ void reorder(WidgetRef ref, int oldIndex, int newIndex) {
     newIndex -= 1;
   } */
   Sort sort = Sort(newIndex: newIndex, oldIndex: oldIndex);
-  ref.read(sortOrderProvider(sort));
+  // ! Drift
+  //ref.read(sortOrderProvider(sort));
 }
 
           // the actual reordering logic:

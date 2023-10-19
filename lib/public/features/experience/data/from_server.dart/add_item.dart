@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:read_with_meaning/public/constants/text_strings.dart';
 import 'package:read_with_meaning/public/features/boot_up/login/data/secure_login/storage.dart';
-import 'package:read_with_meaning/shared/domain/types/read.dart';
 
-Future<http.Response> addRead(Read read) async {
+// ! Drift
+/* Future<http.Response> addRead(Read read) async {
   Logger().d("posting read: $read");
   String authToken = await secureStorage.read(key: 'authToken') ?? "";
   final bodyJson = json.encode({
@@ -29,7 +29,7 @@ Future<http.Response> addRead(Read read) async {
   });
 
   return res;
-}
+} */
 
 Future<http.Response> addLink(String url) async {
   String authToken = await secureStorage.read(key: 'authToken') ?? "";

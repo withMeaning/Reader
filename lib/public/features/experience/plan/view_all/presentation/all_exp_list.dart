@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
-import 'package:read_with_meaning/localization/string_hardcoded.dart';
-import 'package:read_with_meaning/public/common_widgets/async_value_widget.dart';
 import 'package:read_with_meaning/public/common_widgets/navigation/main_swipe_navigation.dart';
-import 'package:read_with_meaning/public/common_widgets/navigation/top_label.dart';
-import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
-import 'package:read_with_meaning/public/features/experience/plan/sort/data/order_repositority.dart';
-import 'package:read_with_meaning/public/routing/routes.dart';
 
 class AllExpList extends ConsumerStatefulWidget implements ScrollableWidget {
   const AllExpList({super.key, this.scrollController});
@@ -37,7 +29,9 @@ class _AllExpListState extends ConsumerState<AllExpList> {
         data: (value) => {value.value.map((e) => Read.fromReadEntry(e))},
         error: (asyncError) => placeholderRead,
         loading: (asyncLoading) => placeholderRead); */
-    final readRepository =
+    return Container();
+    // ! Drift
+    /* final readRepository =
         ref.watch(readsWithOrderListRepositoryStreamProvider);
     return AsyncValueWidget(
         value: readRepository,
@@ -97,6 +91,6 @@ class _AllExpListState extends ConsumerState<AllExpList> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: list),
           );
-        });
+        }); */
   }
 }

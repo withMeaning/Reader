@@ -7,7 +7,8 @@
         {
             "name": "read_with_meaning",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart",
         },
         {
             "name": "read_with_meaning (profile mode)",

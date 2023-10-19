@@ -1,6 +1,3 @@
-import 'package:drift/drift.dart';
-import 'package:read_with_meaning/public/features/experience/data/database/tables.dart';
-
 enum AllTypes {
   // * public types
   experience("experience"), // default, shouldn't be used, but can be displayed
@@ -28,9 +25,4 @@ enum AllTypes {
   static AllTypes fromString(String name) {
     return AllTypes.values.firstWhere((e) => e.name == name);
   }
-}
-
-@DataClassName('MeaningType')
-class MeaningTypes extends Table with AutoIncrementingPrimaryKey {
-  TextColumn get name => text().unique()();
 }

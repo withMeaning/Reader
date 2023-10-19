@@ -1,14 +1,8 @@
-import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:read_with_meaning/public/features/experience/data/from_server.dart/fetch_get_items.dart';
-import 'package:read_with_meaning/public/features/experience/data/from_server.dart/get_items_response.dart';
-import 'package:read_with_meaning/public/features/experience/data/from_server.dart/items_2_exp_adapter.dart';
-import 'package:read_with_meaning/public/features/experience/data/repository/read_repository.dart';
-import 'package:read_with_meaning/shared/domain/types/read.dart';
 
-Future<String> fetchReadsFromAPI(WidgetRef ref) async {
+// ! Drift
+
+/* Future<String> fetchReadsFromAPI(WidgetRef ref) async {
   var logger = Logger();
   //final List<Read> parsedReadList = [];
   //final List<GetItem> getItemList = [];
@@ -34,4 +28,4 @@ Future<String> fetchReadsFromAPI(WidgetRef ref) async {
     logger.e("Error fetching reads: $e");
     return e.toString();
   }
-}
+} */

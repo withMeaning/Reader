@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 import 'package:read_with_meaning/public/constants/colors.dart';
 import 'package:read_with_meaning/public/constants/text_strings.dart';
@@ -23,31 +23,64 @@ final Logger logger = Logger(
   level: Level.debug, //main function to tell what to show
 );
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is Trace) return stack.vmTrace;
+    if (stack is Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
+
+  runApp(
+    // ignore: prefer_const_constructors
+    ProviderScope(
+      child: const Meaning(),
+    ),
+  );
+
   // * For more info on error handling, see:
   // * https://docs.flutter.dev/testing/errors
-  await runZonedGuarded(() async {
-    // * Entry point of the app
-    runApp(const ProviderScope(child: Meaning()));
+  // runZonedGuarded(
+  //   () {
+  //     // * Entry point of the app
+  //     runApp(
+  //       const ProviderScope(
+  //         child: Meaning(),
+  //       ),
+  //     );
+  //   },
+  //   (Object error, StackTrace stack) {
+  //     // * Log any errors to console
+  //     debugPrint(error.toString());
 
-    // * This code will present some error UI if any uncaught exception happens
-    FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.presentError(details);
-    };
-    ErrorWidget.builder = (FlutterErrorDetails details) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: const Text('An error occurred'),
-        ),
-        body: Center(child: Text(details.toString())),
-      );
-    };
-  }, (Object error, StackTrace stack) {
-    // * Log any errors to console
-    debugPrint(error.toString());
-  });
+  //     // * This code will present some error UI if any uncaught exception happens
+  //     FlutterError.onError = (FlutterErrorDetails details) {
+  //       FlutterError.presentError(details);
+  //     };
+  //     ErrorWidget.builder = (FlutterErrorDetails details) {
+  //       return MaterialApp(
+  //         home: Scaffold(
+  //           appBar: AppBar(
+  //             backgroundColor: Colors.red,
+  //             title: const Text('An error occurred'),
+  //             actions: [
+  //               Consumer(builder: (context, ref, _) {
+  //                 return IconButton(
+  //                     icon: const Icon(Icons.logout),
+  //                     onPressed: () {
+  //                       logOut(ref);
+  //                       //context.goNamed(AppRoute.login.name);
+  //                     });
+  //               })
+  //             ],
+  //           ),
+  //           body: Center(child: Text(details.toString())),
+  //         ),
+  //       );
+  //     };
+  //   },
+  // );
 }
 
 class Meaning extends ConsumerWidget {

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:read_with_meaning/public/constants/app_sizes.dart';
-import 'package:read_with_meaning/public/features/experience/data/database/database.dart';
-import 'package:read_with_meaning/public/features/experience/data/from_server.dart/add_item.dart';
 
 // ? is there a cleaner way to pass the ref to application add_exp_to_db.dart?
 class AddSourceForm extends ConsumerStatefulWidget {
@@ -59,11 +56,12 @@ class _AddExpFormState extends ConsumerState<AddSourceForm> {
   _submit() {
     //addExpToDB(ref, _titleController.text, _mainContentController.text,
     // _linkController.text);
-    final database = ref.read(AppDatabase.provider);
+    // ! Drift
+    /* final database = ref.read(AppDatabase.provider);
     database.into(database.sources).insert(
         SourcesCompanion.insert(link: _linkController.text, resonance: 50));
     addSource(_linkController.text);
-    context.pop("");
+    context.pop(""); */
   }
 
   @override

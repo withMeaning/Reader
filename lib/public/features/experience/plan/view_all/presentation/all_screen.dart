@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:read_with_meaning/public/common_widgets/errors/snack_bar.dart';
 import 'package:read_with_meaning/public/common_widgets/navigation/main_swipe_navigation.dart';
 import 'package:read_with_meaning/public/common_widgets/responsive/responsive_center.dart';
 import 'package:read_with_meaning/public/constants/icomoon_icons.dart';
-import 'package:read_with_meaning/public/features/experience/data/from_server.dart/sync_once.dart';
 import 'package:read_with_meaning/public/features/experience/plan/sort/presentation/stream_as_draggable_sheet.dart';
-import 'package:read_with_meaning/public/features/experience/plan/sort/presentation/list_stream.dart';
 import 'package:read_with_meaning/public/features/experience/plan/view_all/presentation/all_exp_list.dart';
 import 'package:read_with_meaning/public/routing/navigation.dart';
 
@@ -35,10 +32,12 @@ class AllExpListScreen extends StatelessWidget {
                   label: NavOptions.refresh.label,
                   icon: Icons.refresh,
                   callback: () async {
+                    // ! Drift
+                    /* 
                     snackBar(context, "Syncing...");
                     String message = await fetchReadsFromAPI(ref);
                     snackBar(context,
-                        message); /* showModalBottomSheet(
+                        message); */ /* showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
                           builder: (BuildContext context) {
